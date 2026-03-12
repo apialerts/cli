@@ -15,7 +15,7 @@ builds:
       post:
         - cmd: >-
             {{- if eq .Os "darwin" }}
-            codesign --force --sign "Developer ID Application: Jared Hall ({{ .Env.APPLE_TEAM_ID }})" --timestamp "{{ .Path }}"
+            codesign --force --options runtime --sign "Developer ID Application: Jared Hall ({{ .Env.APPLE_TEAM_ID }})" --timestamp "{{ .Path }}"
             {{- else }}
             true
             {{- end }}
