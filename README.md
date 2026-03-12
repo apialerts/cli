@@ -1,7 +1,5 @@
 # API Alerts • CLI
 
-[GitHub Repo](https://github.com/apialerts/apialerts-cli)
-
 A command-line interface for [apialerts.com](https://apialerts.com). Send events from your terminal, scripts, and CI/CD pipelines.
 
 ## Installation

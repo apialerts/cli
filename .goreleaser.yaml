@@ -43,7 +43,8 @@ homebrew_casks:
     description: "API Alerts CLI — send events from your terminal"
 
 scoops:
-  - repository:
+  - name: apialerts
+    repository:
       owner: apialerts
       name: scoop-bucket
       token: "{{ .Env.GORELEASER_TOKEN }}"

@@ -18,7 +18,7 @@ var testCmd = &cobra.Command{
 			return err
 		}
 
-		apialerts.Configure(apiKey)
+		apialerts.ConfigureWithConfig(apiKey, apialerts.Config{Debug: true})
 		apialerts.SetIntegration(IntegrationName)
 
 		event := apialerts.Event{
@@ -28,12 +28,10 @@ var testCmd = &cobra.Command{
 			Tags:    []string{"test", "cli"},
 		}
 
-		fmt.Println("Sending test event...")
 		if err := apialerts.SendAsync(event); err != nil {
 			return fmt.Errorf("test failed: %w", err)
 		}
 
-		fmt.Println("Test event sent successfully.")
 		return nil
 	},
 }

@@ -54,7 +54,7 @@ var sendCmd = &cobra.Command{
 		}
 
 		// Configure and send
-		apialerts.Configure(apiKey)
+		apialerts.ConfigureWithConfig(apiKey, apialerts.Config{Debug: true})
 		apialerts.SetIntegration(IntegrationName)
 
 		event := apialerts.Event{
@@ -70,7 +70,6 @@ var sendCmd = &cobra.Command{
 			return fmt.Errorf("failed to send: %w", err)
 		}
 
-		fmt.Println("Event sent.")
 		return nil
 	},
 }
