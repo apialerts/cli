@@ -16,7 +16,7 @@ archives:
   - name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     formats:
       - tar.gz
-    formats_overrides:
+    format_overrides:
       - goos: windows
         formats:
           - zip
