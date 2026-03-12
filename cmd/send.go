@@ -55,7 +55,7 @@ var sendCmd = &cobra.Command{
 
 		// Configure and send
 		apialerts.Configure(apiKey)
-		apialerts.SetIntegration("cli")
+		apialerts.SetIntegration(IntegrationName)
 
 		event := apialerts.Event{
 			Event:   sendEvent,

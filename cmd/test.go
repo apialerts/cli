@@ -19,7 +19,7 @@ var testCmd = &cobra.Command{
 		}
 
 		apialerts.Configure(apiKey)
-		apialerts.SetIntegration("cli")
+		apialerts.SetIntegration(IntegrationName)
 
 		event := apialerts.Event{
 			Event:   "cli.test",
