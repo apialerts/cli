@@ -6,6 +6,20 @@ A command-line interface for [apialerts.com](https://apialerts.com). Send events
 
 ## Installation
 
+### Homebrew (macOS / Linux)
+
+```bash
+brew tap apialerts/tap
+brew install apialerts
+```
+
+### Scoop (Windows)
+
+```bash
+scoop bucket add apialerts https://github.com/apialerts/scoop-bucket
+scoop install apialerts
+```
+
 ### Go Install
 
 ```bash
