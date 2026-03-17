@@ -9,6 +9,22 @@ import (
 
 var configKey string
 
+func maskAPIKey(key string) string {
+	n := len(key)
+
+	switch {
+	case key == "":
+		return "No API key configured."
+	case n <= 3:
+		// Too short, just mask everything
+		return "***"
+	case n <= 10:
+		return key[:1] + "..." + key[n-1:]
+	default:
+		return key[:6] + "..." + key[n-4:]
+	}
+}
+
 var configCmd = &cobra.Command{
 	Use:   "config",
 	Short: "Configure the CLI",
@@ -22,9 +38,9 @@ var configCmd = &cobra.Command{
 			}
 			if cfg.APIKey == "" {
 				fmt.Println("No API key configured.")
-				fmt.Println("Run: apialerts config --key <your-api-key>")
+				fmt.Println("Run: apialerts init")
 			} else {
-				masked := cfg.APIKey[:6] + "..." + cfg.APIKey[len(cfg.APIKey)-4:]
+				masked := maskAPIKey(cfg.APIKey)
 				fmt.Printf("API Key: %s\n", masked)
 			}
 			return nil

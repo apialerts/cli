@@ -28,8 +28,14 @@ var testCmd = &cobra.Command{
 			Tags:    []string{"test", "cli"},
 		}
 
-		if err := apialerts.SendAsync(event); err != nil {
+		result, err := apialerts.SendAsync(event)
+		if err != nil {
 			return fmt.Errorf("test failed: %w", err)
+		}
+
+		fmt.Printf("✓ Test event sent to %s (%s)\n", result.Workspace, result.Channel)
+		for _, w := range result.Warnings {
+			fmt.Printf("! Warning: %s\n", w)
 		}
 
 		return nil

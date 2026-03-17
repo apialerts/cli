@@ -22,11 +22,20 @@ var (
 var sendCmd = &cobra.Command{
 	Use:   "send",
 	Short: "Send an event",
-	Long:  "Send an event to API Alerts. Requires a message at minimum.",
+	Long: `Send an event to API Alerts. Requires a message at minimum.
+
+Properties:
+  -m  message   The notification message (required)
+  -e  event     Event name for filtering/routing (e.g. user.purchase, deploy.success)
+  -t  title     Short title displayed above the message
+  -c  channel   Target channel (uses your default channel if not set)
+  -g  tags      Comma-separated tags for filtering (e.g. billing,error)
+  -l  link      URL attached to the notification
+      key       API key override (uses stored config if not set)`,
 	Example: `  apialerts send -m "Deploy completed"
-  apialerts send -e user.purchase -t "New Sale" -m "$49.99 from john@example.com"
-  apialerts send -m "Payment failed" -c payments -g billing,error
-  apialerts send -m "Build passed" -l https://ci.example.com/build/123`,
+  apialerts send -e "user.purchase" -t "New Sale" -m "$49.99 from john@example.com" -c "payments"
+  apialerts send -m "Payment failed" -c "payments" -g "billing,error"
+  apialerts send -m "Build passed" -l "https://ci.example.com/build/123"`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if sendMessage == "" {
 			return fmt.Errorf("message is required — use -m \"your message\"")
@@ -66,8 +75,14 @@ var sendCmd = &cobra.Command{
 			Link:    sendLink,
 		}
 
-		if err := apialerts.SendAsync(event); err != nil {
+		result, err := apialerts.SendAsync(event)
+		if err != nil {
 			return fmt.Errorf("failed to send: %w", err)
+		}
+
+		fmt.Printf("✓ Alert sent to %s (%s)\n", result.Workspace, result.Channel)
+		for _, w := range result.Warnings {
+			fmt.Printf("! Warning: %s\n", w)
 		}
 
 		return nil
