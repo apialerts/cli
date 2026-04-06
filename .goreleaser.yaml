@@ -43,6 +43,7 @@ nfpms:
     license: MIT
     formats:
       - deb
+      - rpm
 
 homebrew_casks:
   - name: apialerts
