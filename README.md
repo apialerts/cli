@@ -11,6 +11,29 @@ brew tap apialerts/tap
 brew install --cask apialerts
 ```
 
+### apt (Debian / Ubuntu and derivatives)
+
+```bash
+curl -fsSL https://apt.apialerts.com/key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/apialerts.gpg
+echo "deb [signed-by=/usr/share/keyrings/apialerts.gpg] https://apt.apialerts.com stable main" | sudo tee /etc/apt/sources.list.d/apialerts.list
+sudo apt update && sudo apt install apialerts
+```
+
+### dnf (Fedora / RHEL / CentOS)
+
+```bash
+sudo rpm --import https://rpm.apialerts.com/key.gpg
+sudo tee /etc/yum.repos.d/apialerts.repo <<EOF
+[apialerts]
+name=API Alerts
+baseurl=https://rpm.apialerts.com
+enabled=1
+gpgcheck=1
+gpgkey=https://rpm.apialerts.com/key.gpg
+EOF
+sudo dnf install apialerts
+```
+
 ### Scoop (Windows)
 
 ```bash
