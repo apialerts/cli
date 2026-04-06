@@ -67,11 +67,7 @@ jobs:
 
           # Sign each .rpm package
           echo "$APT_GPG_PASSPHRASE" > /tmp/gpg-passphrase
-          cat > ~/.rpmmacros <<EOF
-%_signature gpg
-%_gpg_name API Alerts <support@apialerts.com>
-%__gpg_sign_cmd %{__gpg} gpg --batch --no-verbose --no-armor --pinentry-mode loopback --passphrase-file /tmp/gpg-passphrase --no-secmem-warning -u "%{_gpg_name}" -sbo %{__signature_filename} %{__plaintext_filename}
-EOF
+          printf '%%_signature gpg\n%%_gpg_name API Alerts <support@apialerts.com>\n%%__gpg_sign_cmd %%{__gpg} gpg --batch --no-verbose --no-armor --pinentry-mode loopback --passphrase-file /tmp/gpg-passphrase --no-secmem-warning -u "%%{_gpg_name}" -sbo %%{__signature_filename} %%{__plaintext_filename}\n' > ~/.rpmmacros
           for rpm_file in rpm-repo/packages/*.rpm; do
             rpmsign --addsign "$rpm_file"
           done
