@@ -38,7 +38,7 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v6
+        uses: goreleaser/goreleaser-action@v7
         with:
           version: "~> v2"
           args: release --clean
@@ -46,21 +46,21 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GORELEASER_TOKEN: ${{ secrets.GORELEASER_TOKEN }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-      - name: Notarize macOS binaries
-        env:
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        run: |
-          for bin in dist/cli_darwin_*/apialerts; do
-            ZIP_PATH="${bin}.zip"
-            ditto -c -k "$bin" "$ZIP_PATH"
-            xcrun notarytool submit "$ZIP_PATH" \
-              --apple-id "$APPLE_ID" \
-              --password "$APPLE_ID_PASSWORD" \
-              --team-id "$APPLE_TEAM_ID" \
-              --wait
-          done
+      # - name: Notarize macOS binaries
+      #   env:
+      #     APPLE_ID: ${{ secrets.APPLE_ID }}
+      #     APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+      #     APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      #   run: |
+      #     for bin in dist/cli_darwin_*/apialerts; do
+      #       ZIP_PATH="${bin}.zip"
+      #       ditto -c -k "$bin" "$ZIP_PATH"
+      #       xcrun notarytool submit "$ZIP_PATH" \
+      #         --apple-id "$APPLE_ID" \
+      #         --password "$APPLE_ID_PASSWORD" \
+      #         --team-id "$APPLE_TEAM_ID" \
+      #         --wait
+      #     done
 
   apt:
     name: Publish apt repository
