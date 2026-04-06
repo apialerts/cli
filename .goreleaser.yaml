@@ -6,14 +6,29 @@ builds:
       - CGO_ENABLED=0
     goos:
       - linux
+      - darwin
+      - windows
     goarch:
       - amd64
       - arm64
+    hooks:
+      post:
+        - cmd: >-
+            {{- if eq .Os "darwin" }}
+            codesign --force --options runtime --sign "Developer ID Application: Jared Hall ({{ .Env.APPLE_TEAM_ID }})" --timestamp "{{ .Path }}"
+            {{- else }}
+            true
+            {{- end }}
+          output: true
 
 archives:
   - name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     formats:
       - tar.gz
+    format_overrides:
+      - goos: windows
+        formats:
+          - zip
 
 checksum:
   name_template: "checksums.txt"
@@ -27,7 +42,26 @@ nfpms:
     description: API Alerts CLI — send events from your terminal
     license: MIT
     formats:
+      - deb
       - rpm
+
+homebrew_casks:
+  - name: apialerts
+    repository:
+      owner: apialerts
+      name: homebrew-tap
+      token: "{{ .Env.GORELEASER_TOKEN }}"
+    homepage: "https://apialerts.com"
+    description: "API Alerts CLI — send events from your terminal"
+
+scoops:
+  - name: apialerts
+    repository:
+      owner: apialerts
+      name: scoop-bucket
+      token: "{{ .Env.GORELEASER_TOKEN }}"
+    homepage: "https://apialerts.com"
+    description: "API Alerts CLI — send events from your terminal"
 
 changelog:
   sort: asc
