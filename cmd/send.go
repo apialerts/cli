@@ -95,7 +95,7 @@ Properties:
 
 		result, err := apialerts.SendAsync(event)
 		if err != nil {
-			return fmt.Errorf("failed to send: %w", err)
+			return fmt.Errorf("failed to send: %s", err)
 		}
 
 		fmt.Printf("✓ Alert sent to %s (%s)\n", result.Workspace, result.Channel)

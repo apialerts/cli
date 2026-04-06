@@ -33,6 +33,18 @@ archives:
 checksum:
   name_template: "checksums.txt"
 
+nfpms:
+  - id: packages
+    package_name: apialerts
+    vendor: apialerts
+    homepage: https://apialerts.com
+    maintainer: API Alerts <support@apialerts.com>
+    description: API Alerts CLI — send events from your terminal
+    license: MIT
+    formats:
+      - deb
+      - rpm
+
 homebrew_casks:
   - name: apialerts
     repository:
